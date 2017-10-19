@@ -1,33 +1,33 @@
-class PreferencesController < ApplicationController
+class PreferencesController < ProtectedController
   before_action :set_preference, only: [:show, :update, :destroy]
 
   # GET /preferences
   def index
-    @preferences = Preference.all
+    @preferences = current_user.preferences
 
     render json: @preferences
   end
 
   # GET /preferences/1
   def show
-    render json: @preference
+    render json: @preference.find(params[:id])
   end
 
   # POST /preferences
   def create
-    @preference = Preference.new(preference_params)
+    @example = current_user.preferences.build(preference_params)
 
-    if @preference.save
-      render json: @preference, status: :created, location: @preference
+    if @example.save
+      render json: @example, status: :created
     else
-      render json: @preference.errors, status: :unprocessable_entity
+      render json: @example.errors, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /preferences/1
   def update
     if @preference.update(preference_params)
-      render json: @preference
+      head :no_content
     else
       render json: @preference.errors, status: :unprocessable_entity
     end
@@ -36,16 +36,18 @@ class PreferencesController < ApplicationController
   # DELETE /preferences/1
   def destroy
     @preference.destroy
+
+    head :no_content
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_preference
-      @preference = Preference.find(params[:id])
+      @preference = current_user.preferences.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def preference_params
-      params.require(:preference).permit(:user_id, :location, :search_radius)
+      params.require(:preference).permit(:location, :search_radius)
     end
 end

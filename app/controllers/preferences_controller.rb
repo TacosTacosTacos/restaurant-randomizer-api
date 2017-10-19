@@ -3,24 +3,25 @@ class PreferencesController < ProtectedController
 
   # GET /preferences
   def index
-    @preferences = current_user.preferences
+    @preference = current_user.preference
 
-    render json: @preferences
+    render json: @preference
   end
 
   # GET /preferences/1
   def show
-    render json: @preference.find(params[:id])
+    render json: @preference
   end
 
   # POST /preferences
   def create
-    @example = current_user.preferences.build(preference_params)
 
-    if @example.save
-      render json: @example, status: :created
+    preference = Preference.create(preference_params)
+
+    if preference.valid?
+      render json: preference, status: :created
     else
-      render json: @example.errors, status: :unprocessable_entity
+      render json: preference.errors, status: :bad_request
     end
   end
 
@@ -43,11 +44,11 @@ class PreferencesController < ProtectedController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_preference
-      @preference = current_user.preferences.find(params[:id])
+      @preference = current_user.preference
     end
 
     # Only allow a trusted parameter "white list" through.
     def preference_params
-      params.require(:preference).permit(:location, :search_radius)
+      params.require(:preference).permit(:location, :search_radius, :user_id)
     end
 end

@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20171019151058) do
     t.integer "search_radius"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_preferences_on_user_id"
+    t.index ["user_id"], name: "index_preferences_on_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|

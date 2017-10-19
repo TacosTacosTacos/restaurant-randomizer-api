@@ -6,7 +6,7 @@ A website that is used to randomly pick a location to eat based on user preferen
 
 
 ## Each repo must contain the link to both deployed sites
-todo: FILL OUT
+TODO: FILL OUT
 
 
 ## List technologies used
@@ -17,7 +17,7 @@ todo: FILL OUT
 
 
 ## Document your planning and tell a story about your development process and problem-solving strategy.
-todo: FILL OUT
+TODO: FILL OUT
 
 
 ## Link to Entity Relationship Diagram (ERD).

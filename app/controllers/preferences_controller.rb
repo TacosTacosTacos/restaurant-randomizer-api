@@ -1,4 +1,4 @@
-class PreferencesController < ProtectedController
+class PreferencesController < ApplicationController
   before_action :set_preference, only: [:show, :update, :destroy]
 
   # GET /preferences

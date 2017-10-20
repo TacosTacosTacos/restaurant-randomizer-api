@@ -1,6 +1,6 @@
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/user_selected_categories"
-TOKEN="BAhJIiUyZTBjZDg2OWZjNzAyOGUyOTA2OTM0MGExZjRhNWM4ZAY6BkVG--a8b62bb2ad4a8f2a8d05cd8af3b4f8ddd749a80b"
+TOKEN="BAhJIiVlMmIxNDEzYTU0MTc1NzY5OGE2ZjllYjAyZTI5YmViOAY6BkVG--99a57e4f255e73ebbb440b5521129b4fd0696024"
 
 curl "${API}${URL_PATH}" \
   --include \

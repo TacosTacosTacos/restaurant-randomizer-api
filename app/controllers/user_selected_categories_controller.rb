@@ -3,24 +3,24 @@ class UserSelectedCategoriesController < ProtectedController
 
   # GET /user_selected_categories
   def index
-    @user_selected_categories = UserSelectedCategory.all
+    @user_selected_categories = current_user.user_selected_categories
 
     render json: @user_selected_categories
   end
 
   # GET /user_selected_categories/1
   def show
-    render json: @user_selected_category
+    render json: UserSelectedCategory.find(params[:id])
   end
 
   # POST /user_selected_categories
   def create
-    @user_selected_category = UserSelectedCategory.new(user_selected_category_params)
+    user_category = UserSelectedCategory.create(user_selected_category_params)
 
-    if @user_selected_category.save
-      render json: @user_selected_category, status: :created, location: @user_selected_category
+    if user_category.valid?
+      render json: user_category, status: :created
     else
-      render json: @user_selected_category.errors, status: :unprocessable_entity
+      render json: user_category.errors, status: :bad_request
     end
   end
 
@@ -36,12 +36,14 @@ class UserSelectedCategoriesController < ProtectedController
   # DELETE /user_selected_categories/1
   def destroy
     @user_selected_category.destroy
+
+    head :no_content
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user_selected_category
-      @user_selected_category = UserSelectedCategory.find(params[:id])
+      @user_selected_category = current_user.user_selected_categories.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :restaurant_categories, only: %i[index show]
   resources :preferences, except: %i[new edit]
   resources :examples, except: %i[new edit]
   post '/sign-up' => 'users#signup'

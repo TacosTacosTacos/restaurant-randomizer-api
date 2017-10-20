@@ -28,7 +28,8 @@ class PreferencesController < ProtectedController
   # PATCH/PUT /preferences/1
   def update
     if @preference.update(preference_params)
-      head :no_content
+      # head :no_content
+      render json: @preference
     else
       render json: @preference.errors, status: :unprocessable_entity
     end

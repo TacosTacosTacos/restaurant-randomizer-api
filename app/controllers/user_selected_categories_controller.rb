@@ -46,6 +46,6 @@ class UserSelectedCategoriesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_selected_category_params
-      params.require(:user_selected_category).permit(:user_id, :restaraunt_category_id)
+      params.require(:user_selected_category).permit(:user_id, :restaurant_category_id)
     end
 end

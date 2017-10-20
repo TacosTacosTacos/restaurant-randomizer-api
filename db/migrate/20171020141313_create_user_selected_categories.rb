@@ -6,5 +6,7 @@ class CreateUserSelectedCategories < ActiveRecord::Migration[5.1]
 
       t.timestamps
     end
+    add_index(:user_selected_categories, %i[user_id restaurant_category_id],
+              unique: true, name: 'unique_user_selected_categories')
   end
 end

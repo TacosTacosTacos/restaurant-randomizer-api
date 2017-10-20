@@ -1,8 +1,8 @@
 #!/bin/bash
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/user_selected_categories"
-TOKEN=""
-USER_ID=1
+TOKEN="BAhJIiUyZTBjZDg2OWZjNzAyOGUyOTA2OTM0MGExZjRhNWM4ZAY6BkVG--a8b62bb2ad4a8f2a8d05cd8af3b4f8ddd749a80b"
+USER_ID=2
 RESTAURANT_CATEGORY_ID=1
 curl "${API}${URL_PATH}" \
   --include \

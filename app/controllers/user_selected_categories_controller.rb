@@ -1,4 +1,4 @@
-class UserSelectedCategoriesController < ApplicationController
+class UserSelectedCategoriesController < ProtectedController
   before_action :set_user_selected_category, only: [:show, :update, :destroy]
 
   # GET /user_selected_categories

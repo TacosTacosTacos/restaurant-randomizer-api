@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :user_selected_categories
+  resources :user_selected_categories, except: %i[edit update]
   resources :restaurant_categories, only: %i[index show]
   resources :preferences, except: %i[new edit]
   resources :examples, except: %i[new edit]

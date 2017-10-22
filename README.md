@@ -3,25 +3,25 @@
 # Description
 A website that is used to randomly pick a location to eat based on user preferences and set location.  I based it off of stuff I have seen similar simple crud learning apps that I have seen online.  I have a use for it because some of my coworkers can't always decided where they want to go to get food.
 
+## Website URLs
+https://tacostacostacos.github.io/restaurant-randomizer-ui/
+https://github.com/TacosTacosTacos/restaurant-randomizer-ui
 
-
-## Each repo must contain the link to both deployed sites
-TODO: FILL OUT
-
+https://restaurant-randomizer-api.herokuapp.com/
+https://github.com/TacosTacosTacos/restaurant-randomizer-api
 
 ## List technologies used
-Ruby, Ruby on Rails, Four Square API
+Ruby, Ruby on Rails
+<!-- , Four Square API -->
 
 ## List unsolved problems which would be fixed in future iterations.
-todo: FILL OUT
-
+It isn't really an unsolved problem, but I would focus on getting the API call to foursquare up and running.  Once that has been done, the project would meet it's original vision.  I would also spend some time on making the UI very purdy.
 
 ## Document your planning and tell a story about your development process and problem-solving strategy.
-TODO: FILL OUT
-
+Based on my experience with the last project, I decided that I would rather focus on implementing and trying out new functionality rather than making a super clean UI.  I spent too much time during the Tic-Tac-Toe project on creating a nav and keeping to the original scope, that I didn't challenge myself at all.  This time around, while I did make sure that I met the requirements first, anything that was outside of requirements was backburnered.  Because of this, I created the site using mockup data.  This defeats the purpose of the site, and moves away from the original vision, but it meets requirements, and does some of the work I would have needed to do anyways to set it up with a custom api call.
 
 ## Link to Entity Relationship Diagram (ERD).
-https://ibb.co/fW94J6
+![https://ibb.co/gxuEam](https://image.ibb.co/hrvy1R/erdplus_diagram_2.png)
 
 ### Authentication
 
@@ -62,8 +62,10 @@ Content-Type: application/json; charset=utf-8
 
 {
   "user": {
-    "id": 1,
-    "email": "ava@bob.com"
+    "id":9,
+    "email":"TestUser1434@gmail.com",
+    "preference":null,
+    "user_selected_categories":[]
   }
 }
 ```
@@ -99,7 +101,9 @@ Content-Type: application/json; charset=utf-8
   "user": {
     "id": 1,
     "email": "ava@bob.com",
-    "token": "BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f"
+    "token": "BAhJIiVlZDIwZTMzMzQzODg5NTBmYjZlNjRlZDZlNzYxYzU2ZAY6BkVG--7e7f77f974edcf5e4887b56918f34cd9fe293b9f",
+    "preference":null,
+    "user_selected_categories":[]
   }
 }
 ```
@@ -180,16 +184,43 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {
-  "users": [
-    {
-      "id": 2,
-      "email": "bob@ava.com"
-    },
-    {
-      "id": 1,
-      "email": "ava@bob.com"
-    }
-  ]
+   "users":[
+      {
+         "id":1,
+         "email":"TestUser5@gmail.com",
+         "preference":null,
+         "user_selected_categories":[
+            {
+               "id":1,
+               "user_id":1,
+               "restaurant_category_id":1,
+               "created_at":"2017-10-20T15:21:04.750Z",
+               "updated_at":"2017-10-20T15:21:04.750Z"
+            }
+         ]
+      },
+      {
+         "id":5,
+         "email":"TestUser122@gmail.com",
+         "preference":{
+            "id":11,
+            "user_id":5,
+            "location":"d",
+            "search_radius":1,
+            "created_at":"2017-10-21T17:52:44.025Z",
+            "updated_at":"2017-10-21T17:52:44.025Z"
+         },
+         "user_selected_categories":[
+            {
+               "id":100,
+               "user_id":5,
+               "restaurant_category_id":6,
+               "created_at":"2017-10-21T18:03:32.426Z",
+               "updated_at":"2017-10-21T18:03:32.426Z"
+            }
+         ]
+      }
+   ]
 }
 ```
 
@@ -213,22 +244,33 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {
-  "user": {
-    "id": 2,
-    "email": "bob@ava.com"
-  }
+   "user":{
+      "id":1,
+      "email":"TestUser5@gmail.com",
+      "preference":null,
+      "user_selected_categories":[
+         {
+            "id":1,
+            "user_id":1,
+            "restaurant_category_id":1,
+            "created_at":"2017-10-20T15:21:04.750Z",
+            "updated_at":"2017-10-20T15:21:04.750Z"
+         }
+      ]
+   }
 }
 ```
 
 
 ### Preferences
 
-| Verb   | URI Pattern    | Controller#Action           |
-|--------|----------------|-----------------------------|
-| GET    | `/preferences` | `preferences#getlocation`   |
-| POST   | `/preferences` | `preferences#addlocation`   |
-| PATCH  | `/preferences` | `preferences#changelocation`|
-
+| Verb   | URI Pattern    | Controller#Action  |
+|--------|----------------|--------------------|
+| GET    | `/preferences` | `index`            |
+| GET    | `/preferences` | `show`             |
+| POST   | `/preferences` | `create`           |
+| PATCH  | `/preferences` | `update`           |
+| DELETE | `/preferences` | `destroy`          |
 
 #### GET /preferences
 
@@ -237,39 +279,6 @@ Request:
 ```sh
 curl --include --request GET http://localhost:4741/preferences/ \
   --header "Authorization: Token token=$TOKEN"
-  --data
-```
-
-```sh
-TODO: Fill OUT
-```
-
-Response:
-
-```md
-HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-
-TODO: Fill in
-```
-
-
-#### POST /preferences
-
-Request:
-
-```sh
-curl http://localhost:4741/preferences\
-  --include \
-  --request POST \
-  --header "Content-Type: application/json" \
-  --data '{
-TODO: Fill in
-  }'
-```
-
-```sh
-TODO: Fill in
 ```
 
 Response:
@@ -279,8 +288,68 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {
-TODO: Fill in
-  }
+   "preference":{
+      "id":12,
+      "location":"03878",
+      "search_radius":99779,
+      "user_id":1
+   }
+}
+```
+
+Request:
+
+```sh
+curl "${API}${URL_PATH}/${ID}" \
+  --include \
+  --request GET \
+  --header "Authorization: Token token=$TOKEN"
+```
+Response:
+
+```md
+{
+   "preference":{
+      "id":12,
+      "location":"03878",
+      "search_radius":99779,
+      "user_id":1
+   }
+}
+```
+
+#### POST /preferences
+
+Request:
+
+```sh
+curl "${API}${URL_PATH}" \
+  --include \
+  --request POST \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN" \
+  --data '{
+    "preference": {
+      "location": "'"${LOCATION}"'",
+      "search_radius": "'"${SEARCH_RADIUS}"'",
+      "user_id": "'"${USER_ID}"'"
+    }
+  }'
+```
+
+Response:
+
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+   "preference":{
+      "id":12,
+      "location":"03878",
+      "search_radius":99779,
+      "user_id":1
+   }
 }
 ```
 
@@ -291,17 +360,41 @@ TODO: Fill in
 Request:
 
 ```sh
-curl --include --request PATCH "http://localhost:4741/preferences/" \
-  --header "Authorization: Token token=$TOKEN" \
+curl "${API}${URL_PATH}/${PREFERENCE_ID}" \
+  --include \
+  --request PATCH \
+  --header "Authorization: Token token=${TOKEN}" \
   --header "Content-Type: application/json" \
   --data '{
-TODO: Fill in
-    }
-  }'
+  "preference": {
+    "location": "'"${LOCATION}"'",
+    "search_radius": "'"${SEARCH_RADIUS}"'"
+  }
+}'
 ```
 
+Response:
+
+```md
+{
+   "preference":{
+      "id":12,
+      "location":"03878",
+      "search_radius":99779,
+      "user_id":1
+   }
+}
+```
+
+#### DELETE /preference/:id
+
+Request:
+
 ```sh
-TODO: Fill in
+curl http://localhost:4741/preferences/$ID \
+  --include \
+  --request DELETE \
+  --header "Authorization: Token token=$TOKEN"
 ```
 
 Response:
@@ -309,31 +402,28 @@ Response:
 ```md
 HTTP/1.1 204 No Content
 ```
+### User Categories
+| Verb   | URI Pattern                                     | Controller#Action   |
+|--------|-------------------------------------------------|---------------------|
+| POST   | `/user_selected_categories/:restaraunt_type_id` | `create`            |
+| GET    | `/user_selected_categories`                     | `get`               |
+| DELETE | `/user_selected_categories/:restaraunt_type_id` | `destroy`           |
 
-
-### User Restaraunt Blacklist
-| Verb   | URI Pattern                                      | Controller#Action             |
-|--------|--------------------------------------------------|-------------------------------|
-| POST   | `/user_restaraunt_blacklist/:restaraunt_type_id` | `restaraunt_blacklist#create` |
-| GET    | `/user_restaraunt_blacklist`                     | `restaraunt_blacklist#get`    |
-| DELETE | `/user_restaraunt_blacklist/:restaraunt_type_id` | `restaraunt_blacklist#destroy`|
-
-#### POST /user_restaraunt_blacklist/:restaraunt_type_id
+#### POST /user_selected_categories/:restaraunt_type_id
 
 Request:
 
 ```sh
-curl http://localhost:4741/user_restaraunt_blacklist/:restaraunt_type_id\
+curl http://localhost:4741/user_selected_categories/:restaraunt_type_id\
   --include \
   --request POST \
-  --header "Content-Type: application/json" \
+  --header "Authorization: Token token=$TOKEN" \
   --data '{
-TODO: Fill in
+    "user_selected_category": {
+      "restaurant_category_id": "'"${RESTAURANT_CATEGORY_ID}"'",
+      "user_id": "'"${USER_ID}"'"
+    }
   }'
-```
-
-```sh
-TODO: Fill in
 ```
 
 Response:
@@ -343,8 +433,16 @@ HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
 {
-TODO: Fill in
-  }
+   "user_selected_category":{
+      "id":101,
+      "user_id":1,
+      "restaurant_category_id":4,
+      "restaurant_category":{
+         "id":4,
+         "four_square_id":"4bf58dd8d48988d10f941735",
+         "name":"Indian"
+      }
+   }
 }
 ```
 
@@ -354,13 +452,9 @@ TODO: Fill in
 Request:
 
 ```sh
-curl --include --request GET http://localhost:4741/user_restaraunt_blacklist/ \
+curl --include --request GET http://localhost:4741/user_selected_categories/ \
   --header "Authorization: Token token=$TOKEN"
   --data
-```
-
-```sh
-TODO: Fill OUT
 ```
 
 Response:
@@ -369,7 +463,18 @@ Response:
 HTTP/1.1 200 OK
 Content-Type: application/json; charset=utf-8
 
-TODO: Fill in
+{
+   "user_selected_category":{
+      "id":101,
+      "user_id":1,
+      "restaurant_category_id":4,
+      "restaurant_category":{
+         "id":4,
+         "four_square_id":"4bf58dd8d48988d10f941735",
+         "name":"Indian"
+      }
+   }
+}
 ```
 
 
@@ -378,14 +483,10 @@ TODO: Fill in
 Request:
 
 ```sh
-curl http://localhost:4741/user_restaraunt_blacklist/:restaraunt_type_id \
+curl http://localhost:4741/user_selected_categories/:restaraunt_type_id \
   --include \
   --request DELETE \
   --header "Authorization: Token token=$TOKEN"
-```
-
-```sh
-TODO: Fill in
 ```
 
 Response:

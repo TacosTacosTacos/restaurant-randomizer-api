@@ -1,5 +1,5 @@
 #!/bin/bash
-EMAIL="TestUser1@gmail.com"
+EMAIL="TestUser1434@gmail.com"
 PASSWORD="asdf"
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/sign-up"

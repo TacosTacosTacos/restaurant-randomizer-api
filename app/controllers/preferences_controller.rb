@@ -1,5 +1,5 @@
 class PreferencesController < ProtectedController
-  before_action :set_preference, only: [:show, :update, :destroy]
+  before_action :set_preference, only: %i[show update destroy]
 
   # GET /preferences
   def index
@@ -15,7 +15,6 @@ class PreferencesController < ProtectedController
 
   # POST /preferences
   def create
-
     preference = Preference.create(preference_params)
 
     if preference.valid?
@@ -43,13 +42,14 @@ class PreferencesController < ProtectedController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_preference
-      @preference = current_user.preference
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def preference_params
-      params.require(:preference).permit(:location, :search_radius, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_preference
+    @preference = current_user.preference
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def preference_params
+    params.require(:preference).permit(:location, :search_radius, :user_id)
+  end
 end

@@ -1,5 +1,5 @@
 class UserSelectedCategoriesController < ProtectedController
-  before_action :set_user_selected_category, only: [:show, :update, :destroy]
+  before_action :set_user_selected_category, only: %i[show update destroy]
 
   # GET /user_selected_categories
   def index
@@ -41,13 +41,14 @@ class UserSelectedCategoriesController < ProtectedController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_selected_category
-      @user_selected_category = current_user.user_selected_categories.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_selected_category_params
-      params.require(:user_selected_category).permit(:user_id, :restaurant_category_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_selected_category
+    @user_selected_category = current_user.user_selected_categories.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_selected_category_params
+    params.require(:user_selected_category).permit(:user_id, :restaurant_category_id)
+  end
 end

@@ -12,7 +12,7 @@ class FoursquareController < ProtectedController
     storage['venues'] = []
 
     # Setup the users preference information
-    near = '@preference.location'
+    near = @preference.location
     search_radius = @preference.search_radius * 1610
 
     # Setup the client information
@@ -44,7 +44,7 @@ class FoursquareController < ProtectedController
       # if the call was successful, store the data for response purposes
       if response_status == '200'
         data_hash = JSON.parse(response.read)
-        storage['venues'] << data_hash['response']['venues']
+        storage['venues'] = storage['venues'] + data_hash['response']['venues']
       end
     end
 

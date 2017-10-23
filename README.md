@@ -15,7 +15,7 @@ Ruby, Ruby on Rails
 <!-- , Four Square API -->
 
 ## List unsolved problems which would be fixed in future iterations.
-It isn't really an unsolved problem, but I would focus on getting the API call to foursquare up and running.  Once that has been done, the project would meet it's original vision.  I would also spend some time on making the UI very purdy.
+On the API side,  I would try to make my Four Square call more rebust.  The way that it handles errors is functional, but isn't great.  I wouldn't loop through each category if I get a 400 error after the first iteration through the .map loop.
 
 ## Document your planning and tell a story about your development process and problem-solving strategy.
 Based on my experience with the last project, I decided that I would rather focus on implementing and trying out new functionality rather than making a super clean UI.  I spent too much time during the Tic-Tac-Toe project on creating a nav and keeping to the original scope, that I didn't challenge myself at all.  This time around, while I did make sure that I met the requirements first, anything that was outside of requirements was backburnered.  Because of this, I created the site using mockup data.  This defeats the purpose of the site, and moves away from the original vision, but it meets requirements, and does some of the work I would have needed to do anyways to set it up with a custom api call.
@@ -493,4 +493,222 @@ Response:
 
 ```md
 HTTP/1.1 204 No Content
+```
+
+### User Categories
+| Verb   | URI Pattern   | Controller#Action         |
+|--------|---------------|---------------------------|
+| GET    | `/foursquare` | `foursquare#retrieveData` |
+
+#### GET /foursquare
+
+Request:
+
+```sh
+curl --include --request GET http://localhost:4741/foursquare/ \
+  --header "Authorization: Token token=$TOKEN"
+  --data
+```
+
+Response:
+See https://developer.foursquare.com/docs/api/venues/search for more details
+```md
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+{
+   "meta":{
+      "code":200,
+      "requestId":"59ee10b51ed2196848338f63"
+   },
+   "response":{
+      "venues":[
+         {
+            "id":"4b48d0fef964a520645826e3",
+            "name":"Market Basket",
+            "contact":{
+               "phone":"6034360413",
+               "formattedPhone":"(603) 436-0413"
+            },
+            "location":{
+               "address":"1465 Woodbury Ave",
+               "lat":43.08740089814562,
+               "lng":-70.78736577017764,
+               "labeledLatLngs":[
+                  {
+                     "label":"display",
+                     "lat":43.08740089814562,
+                     "lng":-70.78736577017764
+                  }
+               ],
+               "postalCode":"03801",
+               "cc":"US",
+               "city":"Portsmouth",
+               "state":"NH",
+               "country":"United States",
+               "formattedAddress":[
+                  "1465 Woodbury Ave",
+                  "Portsmouth, NH 03801",
+                  "United States"
+               ]
+            },
+            "categories":[
+               {
+                  "id":"52f2ab2ebcbc57f1066b8b46",
+                  "name":"Supermarket",
+                  "pluralName":"Supermarkets",
+                  "shortName":"Supermarket",
+                  "icon":{
+                     "prefix":"https://ss3.4sqi.net/img/categories_v2/shops/food_grocery_",
+                     "suffix":".png"
+                  },
+                  "primary":true
+               }
+            ],
+            "verified":false,
+            "stats":{
+               "checkinsCount":6231,
+               "usersCount":999,
+               "tipCount":13
+            },
+            "allowMenuUrlEdit":true,
+            "beenHere":{
+               "lastCheckinExpiredAt":0
+            },
+            "specials":{
+               "count":0,
+               "items":[
+
+               ]
+            },
+            "hereNow":{
+               "count":0,
+               "summary":"Nobody here",
+               "groups":[
+
+               ]
+            },
+            "referralId":"v-1508774069",
+            "venueChains":[
+
+            ],
+            "hasPerk":false
+         },
+         {
+            "id":"4ad9f3bbf964a520441c21e3",
+            "name":"Breaking New Grounds",
+            "contact":{
+               "phone":"6034369555",
+               "formattedPhone":"(603) 436-9555",
+               "twitter":"bngcoffee"
+            },
+            "location":{
+               "address":"14 Market Sq",
+               "crossStreet":"Pleasant St",
+               "lat":43.07701892204772,
+               "lng":-70.75736314058304,
+               "labeledLatLngs":[
+                  {
+                     "label":"display",
+                     "lat":43.07701892204772,
+                     "lng":-70.75736314058304
+                  }
+               ],
+               "postalCode":"03801",
+               "cc":"US",
+               "city":"Portsmouth",
+               "state":"NH",
+               "country":"United States",
+               "formattedAddress":[
+                  "14 Market Sq (Pleasant St)",
+                  "Portsmouth, NH 03801",
+                  "United States"
+               ]
+            },
+            "categories":[
+               {
+                  "id":"4bf58dd8d48988d1e0931735",
+                  "name":"Coffee Shop",
+                  "pluralName":"Coffee Shops",
+                  "shortName":"Coffee Shop",
+                  "icon":{
+                     "prefix":"https://ss3.4sqi.net/img/categories_v2/food/coffeeshop_",
+                     "suffix":".png"
+                  },
+                  "primary":true
+               }
+            ],
+            "verified":false,
+            "stats":{
+               "checkinsCount":10188,
+               "usersCount":2974,
+               "tipCount":77
+            },
+            "url":"http://bngcoffee.com",
+            "allowMenuUrlEdit":true,
+            "beenHere":{
+               "lastCheckinExpiredAt":0
+            },
+            "specials":{
+               "count":0,
+               "items":[
+
+               ]
+            },
+            "hereNow":{
+               "count":1,
+               "summary":"One other person is here",
+               "groups":[
+                  {
+                     "type":"others",
+                     "name":"Other people here",
+                     "count":1,
+                     "items":[
+
+                     ]
+                  }
+               ]
+            },
+            "referralId":"v-1508774069",
+            "venueChains":[
+
+            ],
+            "hasPerk":false
+         }
+      ],
+      "confident":true,
+      "geocode":{
+         "what":"",
+         "where":"03878",
+         "feature":{
+            "cc":"US",
+            "name":"03878",
+            "displayName":"03878, NH, United States",
+            "matchedName":"03878, NH, United States",
+            "highlightedName":"<b>03878</b>, NH, United States",
+            "woeType":11,
+            "id":"geonamezip:US-3878",
+            "longId":"162411061562224954",
+            "geometry":{
+               "center":{
+                  "lat":43.2525,
+                  "lng":-70.8756
+               },
+               "bounds":{
+                  "ne":{
+                     "lat":43.287392,
+                     "lng":-70.83813599999999
+                  },
+                  "sw":{
+                     "lat":43.223431,
+                     "lng":-70.927105
+                  }
+               }
+            }
+         },
+         "parents":[
+
+         ]
+      }
+   }
+}
 ```

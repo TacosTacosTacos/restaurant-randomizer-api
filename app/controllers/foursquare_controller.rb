@@ -16,8 +16,8 @@ class FoursquareController < ProtectedController
     search_radius = @preference.search_radius * 1610
 
     # Setup the client information
-    client_id = '05AWY3YE331X33NDYBXNAH1AAJU013CEVX54PEV5TG0EISGK'
-    client_secret = 'ZQQN1W4V0V0E12XAYDUAMVWBCMNQSQUWUZQB1JVWFLYNMUCY'
+    client_id = ENV['CLIENT_ID']
+    client_secret = ENV['CLIENT_SECRET']
 
     # Setup the version #
     v = '20170801'

@@ -12,7 +12,7 @@ class FoursquareController < ProtectedController
     storage['venues'] = []
 
     # Setup the users preference information
-    near = @preference.location
+    near = '@preference.location'
     search_radius = @preference.search_radius * 1610
 
     # Setup the client information
@@ -34,7 +34,12 @@ class FoursquareController < ProtectedController
 
     # For each User Categories associated foursquare ID, retrieve data from foursquare
     fs_category_ids.each do |fs_category_id|
+      begin
       response = open("https://api.foursquare.com/v2/venues/search?near=#{near}&client_id=#{client_id}&client_secret=#{client_secret}&v=#{v}&categoryId=#{fs_category_id}&radius=#{search_radius}&limit=#{limit}")
+      rescue OpenURI::HTTPError => error
+        response = error.io
+        response_status = response.status
+      end
       response_status = response.status[0]
       # if the call was successful, store the data for response purposes
       if response_status == '200'

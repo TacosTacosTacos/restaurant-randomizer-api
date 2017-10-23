@@ -15,7 +15,7 @@ response = open("https://api.foursquare.com/v2/venues/search?near=#{NEAR}&client
 response_status = response.status
 response_body = response.read
 data_hash = JSON.parse(response_body)
-puts response_status
+puts response_status[0] == '200'
 # puts response_body
 
-puts(data_hash['response']['venues'])
+# puts(data_hash['response']['venues'])

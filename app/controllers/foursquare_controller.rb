@@ -8,7 +8,7 @@ class FoursquareController < ProtectedController
     require 'open-uri'
     require 'json'
     # Create an empty storage array for venues
-    storage = Hash.new
+    storage = {}
     storage['venues'] = []
 
     # Setup the users preference information
@@ -23,12 +23,27 @@ class FoursquareController < ProtectedController
     v = '20170801'
 
     # Create the array of fourSquareCategories
-    fs_category_ids = '4d4b7105d754a06374d81259,4bf58dd8d48988d110941735'
+    fs_category_ids = @user_selected_categories.map do |user_selected_category|
+      user_selected_category.restaurant_category.four_square_id
+    end
 
-    response = open("https://api.foursquare.com/v2/venues/search?near=#{near}&client_id=#{client_id}&client_secret=#{client_secret}&v=#{v}&categoryId=#{fs_category_ids}&radius=#{search_radius}")
-    data_hash = JSON.parse(response.read)
-    storage['venues'] << data_hash['response']['venues']
-    render json: storage['venues']
+    # Limit the amount of data being pulled by each request.
+    # FS supports 50 results per request, but I want to reduce
+    # the amount of data being sent back for efficiency purposes
+    limit = 50 / fs_category_ids.length
+
+    # For each User Categories associated foursquare ID, retrieve data from foursquare
+    fs_category_ids.each do |fs_category_id|
+      response = open("https://api.foursquare.com/v2/venues/search?near=#{near}&client_id=#{client_id}&client_secret=#{client_secret}&v=#{v}&categoryId=#{fs_category_id}&radius=#{search_radius}&limit=#{limit}")
+      response_status = response.status[0]
+      # if the call was successful, store the data for response purposes
+      if response_status == '200'
+        data_hash = JSON.parse(response.read)
+        storage['venues'] << data_hash['response']['venues']
+      end
+    end
+
+    render json: storage
   end
 
   private

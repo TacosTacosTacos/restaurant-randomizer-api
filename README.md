@@ -495,7 +495,7 @@ Response:
 HTTP/1.1 204 No Content
 ```
 
-### User Categories
+### Four Square
 | Verb   | URI Pattern   | Controller#Action         |
 |--------|---------------|---------------------------|
 | GET    | `/foursquare` | `foursquare#retrieveData` |

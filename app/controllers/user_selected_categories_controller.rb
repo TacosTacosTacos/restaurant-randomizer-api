@@ -10,28 +10,28 @@ class UserSelectedCategoriesController < ProtectedController
 
   # GET /user_selected_categories/1
   def show
-    render json: UserSelectedCategory.find(params[:id])
+    render json: current_user.UserSelectedCategory.find(params[:id])
   end
 
   # POST /user_selected_categories
   def create
-    user_category = UserSelectedCategory.create(user_selected_category_params)
+    @user_category = current_user.user_selected_categories.build(user_selected_category_params)
 
-    if user_category.valid?
-      render json: user_category, status: :created
+    if @user_category.save
+      render json: @example, status: :created
     else
-      render json: user_category.errors, status: :bad_request
+      render json: @example.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /user_selected_categories/1
-  def update
-    if @user_selected_category.update(user_selected_category_params)
-      render json: @user_selected_category
-    else
-      render json: @user_selected_category.errors, status: :unprocessable_entity
-    end
-  end
+  # # PATCH/PUT /user_selected_categories/1
+  # def update
+  #   if @user_selected_category.update(user_selected_category_params)
+  #     render json: @user_selected_category
+  #   else
+  #     render json: @user_selected_category.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   # DELETE /user_selected_categories/1
   def destroy
@@ -49,6 +49,6 @@ class UserSelectedCategoriesController < ProtectedController
 
   # Only allow a trusted parameter "white list" through.
   def user_selected_category_params
-    params.require(:user_selected_category).permit(:user_id, :restaurant_category_id)
+    params.require(:user_selected_category).permit(:restaurant_category_id)
   end
 end

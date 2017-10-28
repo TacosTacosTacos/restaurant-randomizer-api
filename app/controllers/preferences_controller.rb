@@ -14,13 +14,23 @@ class PreferencesController < ProtectedController
   end
 
   # POST /preferences
-  def create
-    preference = Preference.create(preference_params)
+  # def create
+  #   @preference = Preference.new(preference_params)
+  #
+  #   if @preference.save
+  #     render json: @preference, status: :created
+  #   else
+  #     render json: @preference.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-    if preference.valid?
-      render json: preference, status: :created
+  def create
+    @preference = current_user.build_preference(preference_params)
+
+    if @preference.save
+      render json: @preference, status: :created
     else
-      render json: preference.errors, status: :bad_request
+      render json: @preference.errors, status: :unprocessable_entity
     end
   end
 
@@ -50,6 +60,6 @@ class PreferencesController < ProtectedController
 
   # Only allow a trusted parameter "white list" through.
   def preference_params
-    params.require(:preference).permit(:location, :search_radius, :user_id)
+    params.require(:preference).permit(:location, :search_radius)
   end
 end

@@ -1,10 +1,9 @@
 #!/bin/bash
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/preferences"
-TOKEN="BAhJIiUxYmEwMDNkODFlZDM1MTAzODJiNzA2ZWRlOWQ0YzY0MgY6BkVG--a177a6c483a6ca204056182eb42139b9a85822d8"
+TOKEN="BAhJIiUzMjAzMjI0YjZiMTMxMDEwYWFiZWQ3NTUzYjZkN2FmMQY6BkVG--efea39497cd9d3d62f9690d8d87853cf986890d0"
 LOCATION="03878"
 SEARCH_RADIUS=99779
-USER_ID=1
 
 curl "${API}${URL_PATH}" \
   --include \
@@ -14,8 +13,7 @@ curl "${API}${URL_PATH}" \
   --data '{
     "preference": {
       "location": "'"${LOCATION}"'",
-      "search_radius": "'"${SEARCH_RADIUS}"'",
-      "user_id": "'"${USER_ID}"'"
+      "search_radius": "'"${SEARCH_RADIUS}"'"
     }
   }'
 

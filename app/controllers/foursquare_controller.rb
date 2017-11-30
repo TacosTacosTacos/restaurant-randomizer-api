@@ -27,15 +27,10 @@ class FoursquareController < ProtectedController
       user_selected_category.restaurant_category.four_square_id
     end
 
-    # Limit the amount of data being pulled by each request.
-    # FS supports 50 results per request, but I want to reduce
-    # the amount of data being sent back for efficiency purposes
-    limit = 50 / fs_category_ids.length
-
     # For each User Categories associated foursquare ID, retrieve data from foursquare
     fs_category_ids.each do |fs_category_id|
       begin
-      response = open("https://api.foursquare.com/v2/venues/search?near=#{near}&client_id=#{client_id}&client_secret=#{client_secret}&v=#{v}&categoryId=#{fs_category_id}&radius=#{search_radius}&limit=#{limit}")
+      response = open("https://api.foursquare.com/v2/venues/search?near=#{near}&client_id=#{client_id}&client_secret=#{client_secret}&v=#{v}&categoryId=#{fs_category_id}&radius=#{search_radius}")
       rescue OpenURI::HTTPError => error
         response = error.io
         response_status = response.status
